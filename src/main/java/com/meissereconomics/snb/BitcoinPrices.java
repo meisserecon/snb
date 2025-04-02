@@ -2,9 +2,11 @@ package com.meissereconomics.snb;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 public class BitcoinPrices {
@@ -12,19 +14,13 @@ public class BitcoinPrices {
 	private HashMap<Long, Double> daily;
 	
 	public BitcoinPrices() throws FileNotFoundException, IOException {
-		String data = Files.readString(Path.of("data", "bitcoin.csv"));
-		StringTokenizer tok = new StringTokenizer(data, "\r\n");
-		String header = tok.nextToken();
+		List<String> lines = Files.readAllLines(FileSystems.getDefault().getPath("data", "bitcoin.csv"));
 		daily = new HashMap<>();
-		while (tok.hasMoreElements()) {
-			String line = tok.nextToken();
+		for (int i=1; i<lines.size(); i++) {
+			String line = lines.get(i);
 			StringTokenizer cells = new StringTokenizer(line, ",");
-			long timestamp = Long.parseLong(cells.nextToken().replace(".0", ""));
-			String open = cells.nextToken();
-			String high = cells.nextToken();
-			String low = cells.nextToken();
+			long timestamp = Long.parseLong(cells.nextToken());
 			double close = Double.parseDouble(cells.nextToken());
-			String date = cells.nextToken();
 			daily.put(timestamp / 60 / 60 / 24, close);
 		}
 		System.out.println("Found " + daily.size() + " entires");
@@ -32,6 +28,10 @@ public class BitcoinPrices {
 	
 	public double getEntry(long day) {
 		return daily.get(day);
+	}
+	
+	public Set<Long> getDays() {
+		return daily.keySet();
 	}
 
 }
