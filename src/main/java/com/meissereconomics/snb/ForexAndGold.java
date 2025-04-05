@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-public class PriceData {
+public class ForexAndGold {
 
 	private static SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	
@@ -23,7 +23,7 @@ public class PriceData {
 	private double[] sp500;
 	private double[] gold;
 
-	public PriceData() throws FileNotFoundException, IOException, ParseException {
+	public ForexAndGold() throws FileNotFoundException, IOException, ParseException {
 		List<String> lines = Files.readAllLines(FileSystems.getDefault().getPath("data", "prices.csv"));
 		Iterator<String> iter = lines.iterator();
 		// date,sp500 open,sp500 high,sp500 low,sp500 close,sp500 volume,sp500 high-low,
