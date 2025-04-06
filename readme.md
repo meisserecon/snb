@@ -30,7 +30,7 @@ Current volatility is based on the variance of weekly (five day) returns over a 
 
 ![image](result/chart.png)
 
-The portfolio with bitcoin clearly outperformed the portfolio without, with a slightly increased volatility. Looking at the magnitude of daily returns, the portfolio with bitcoin saw larger daily changes on 53% of the days and was calmer 47% of the time. Average daily volatility increased marginally from 7.32% to 7.44% when allocating 1% of the portfolio to bitcoin, starting 2015-01-01. Looking at five-day return volatility with a rolling window of 15 days, volatility was lower for the portfolio with Bitcoin about 32% of the time.
+The portfolio with bitcoin clearly outperformed the portfolio without, with a slightly increased volatility. Looking at the magnitude of daily returns, the portfolio with bitcoin saw larger daily changes on 53% of the days and was calmer 47% of the time. Average weekly volatility increased marginally from 7.32% to 7.44% (annualized) when allocating 1% of the portfolio to bitcoin, starting 2015-01-01. Looking at five-day return volatility with a rolling window of 15 days, volatility was lower for the portfolio with Bitcoin about 32% of the time.
 
 ## Running the Calculations
 
