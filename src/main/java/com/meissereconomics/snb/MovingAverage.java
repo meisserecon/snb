@@ -31,7 +31,9 @@ public class MovingAverage {
 
 	public double getVariance() {
 		assert var >= 0;
-		return var;
+		// Should this be divided by 'memory' to remove the bias from the estimator?
+		// (like dividing by 'n-1' instead of 'n' with the statistical variance estimator) 
+		return var; 
 	}
 
 	public void add(double point) {
