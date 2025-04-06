@@ -5,38 +5,34 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 import java.util.StringTokenizer;
 
-public class EuroYield {
-	
-	private HashMap<Long, Double> daily;
-	
-	private static SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-	
-	public EuroYield() throws FileNotFoundException, IOException, ParseException {
-		List<String> lines = Files.readAllLines(FileSystems.getDefault().getPath("data", "euroyield.csv"));
-		daily = new HashMap<>();
-		for (int i=1; i<lines.size(); i++) {
+public class EuroYield extends TimeSeries {
+
+	public EuroYield(ForexData eur) throws FileNotFoundException, IOException {
+		super("Euro Bonds");
+		// From https://data.ecb.europa.eu/data/datasets/YC/YC.B.U2.EUR.4F.G_N_A.SV_C_YM.SR_5Y
+		List<String> lines = Files.readAllLines(FileSystems.getDefault().getPath("data", "ECB Data Portal_20250405084013.csv"));
+		LocalDate prevTime = null;
+		double prevValue = 0.0;
+		for (int i = 1; i < lines.size(); i++) {
 			String line = lines.get(i);
 			StringTokenizer cells = new StringTokenizer(line, ",\"");
-			long time = FORMAT.parse(cells.nextToken()).getTime();
-			cells.nextToken();
-			double close = Double.parseDouble(cells.nextToken());
-			daily.put(time / 60 / 60 / 24 / 1000, close);
+			LocalDate day = parse(cells.nextToken());
+			if (eur.hasValue(day)) {
+				cells.nextToken();
+				double close = Double.parseDouble(cells.nextToken());
+				if (prevTime == null) {
+					initYield(day);
+				} else {
+					insertYieldWithConversion(prevTime, prevValue, day, close, eur);
+				}
+				prevTime = day;
+				prevValue = close;
+			}
 		}
-		System.out.println("Found " + daily.size() + " entires");
-	}
-	
-	public double getEntry(long day) {
-		return daily.get(day);
-	}
-	
-	public Set<Long> getDays() {
-		return daily.keySet();
 	}
 
 }
