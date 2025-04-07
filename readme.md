@@ -1,4 +1,4 @@
-# SNB Portfolio Simulatio with Bitcoin
+# SNB Portfolio Simulation with Bitcoin
 
 ## Abstract
 
