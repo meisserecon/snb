@@ -9,7 +9,7 @@ This project is about finding out how adding bitcoins to the portfolio of the Sw
 As the exact composition of the SNB's portfolio is not known, we approximated it based on the 2024 annual report using the components: gold, MSCI World, five-year dollar government bond returns, and five-year euro government bond returns.
 
 The used data was downloaded from the following source:
-
+- [Investing.com](https://www.investing.com/indices/msci-world-historical-data) for the MSCI World index
 - [Forexsoftware](https://forexsb.com/historical-forex-data) for historical daily gold, euro and dollar quotes.
 - [St. Louis Fed](https://fred.stlouisfed.org/series/DGS5) for historical daily dollar yields on US treasuries at a five-year constant maturity
 - [Europen Central Bank](https://data.ecb.europa.eu/data/datasets/YC/YC.B.U2.EUR.4F.G_N_A.SV_C_YM.SR_5Y) for historical daily euro yields on government bonds at a five-year constant maturity
