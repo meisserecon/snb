@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -sSL -o \"c:/Users/luziu/Documents/GitHub/snb/data2026/DGS5.csv\" \"https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS5\")",
+      "Bash(curl -sSL -A \"Mozilla/5.0\" -o \"c:/Users/luziu/Documents/GitHub/snb/data2026/Bitstamp_BTCUSD_d.csv\" \"https://www.cryptodatadownload.com/cdd/Bitstamp_BTCUSD_d.csv\")",
+      "Bash(curl -sSL -o \"c:/Users/luziu/Documents/GitHub/snb/data2026/ECB Data Portal.csv\" \"https://data-api.ecb.europa.eu/service/data/YC/B.U2.EUR.4F.G_N_A.SV_C_YM.SR_5Y?format=csvdata\")"
+    ]
+  }
+}

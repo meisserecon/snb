@@ -14,9 +14,9 @@ public class ForexData extends TimeSeries {
 	}
 	
 	// Source: https://forexsb.com/historical-forex-data
-	public ForexData(String label, String filename, DollarExchangeRate usd) throws IOException {
+	public ForexData(String dataFolder, String label, String filename, DollarExchangeRate usd) throws IOException {
 		super(label);
-		List<String> lines = Files.readAllLines(FileSystems.getDefault().getPath("data", filename));
+		List<String> lines = Files.readAllLines(FileSystems.getDefault().getPath(dataFolder, filename));
 		for (int i=0; i<lines.size(); i++) {
 			String line = lines.get(i);
 			StringTokenizer cells = new StringTokenizer(line, ",\"\t");

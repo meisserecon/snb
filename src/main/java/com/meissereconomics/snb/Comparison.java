@@ -1,6 +1,9 @@
 package com.meissereconomics.snb;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,15 +22,15 @@ public class Comparison {
 	private BitcoinPrice bitcoin;
 	private TimeSeries snb, snbWithBitcoin;
 	
-	public Comparison(LocalDate start) throws IOException {
+	public Comparison(String datafolder, LocalDate start) throws IOException {
 		this.start = start;
-		this.dollar = new DollarExchangeRate();
-		this.euro = new EuroExchangeRate();
-		this.dollarbond = new DollarYield(dollar);
-		this.eurobond = new EuroYield(euro);
-		this.gold = new GoldPrice(dollar);
-		this.msci = new MSCIData(dollar);
-		this.bitcoin = new BitcoinPrice(dollar);
+		this.dollar = new DollarExchangeRate(datafolder);
+		this.euro = new EuroExchangeRate(datafolder);
+		this.dollarbond = new DollarYield(datafolder, dollar);
+		this.eurobond = new EuroYield(datafolder, euro);
+		this.gold = new GoldPrice(datafolder, dollar);
+		this.msci = new MSCIData(datafolder, dollar);
+		this.bitcoin = new BitcoinPrice(datafolder, dollar);
 		Portfolio p = new Portfolio("SNB");
 		p.addComponent(gold, 78);
 		p.addComponent(msci, 188.5);
@@ -48,7 +51,7 @@ public class Comparison {
 		return Arrays.asList(bitcoin, bitcoinVola1, bitcoinVola5, bitcoinVola30, bitcoinVola90, bitcoinVola180, bitcoinVola360);
 	}
 	
-	private void print(List<TimeSeries> series, TimeSeries... toNormalize) {
+	private void print(PrintStream out, List<TimeSeries> series, TimeSeries... toNormalize) {
 		LocalDate first = Portfolio.MIN_DATE;
 		for (TimeSeries s: series) {
 			first = s.findFirstCommonDate(first);
@@ -56,19 +59,19 @@ public class Comparison {
 		for (TimeSeries tn: toNormalize) {
 			tn.normalizeAround(first);
 		}
-		System.out.print("Date");
+		out.print("Date");
 		for (TimeSeries t: series) {
-			System.out.print("\t" + t.getLabel());
+			out.print("\t" + t.getLabel());
 		}
-		System.out.println();
+		out.println();
 		LocalDate current = start;
 		while (!current.equals(Portfolio.MAX_DATE)) {
 			if (hasData(current, series)) {
-				System.out.print(current);
+				out.print(current);
 				for (TimeSeries t: series) {
-					System.out.print("\t" + t.getEntry(current));
+					out.print("\t" + t.getEntry(current));
 				}
-				System.out.println();
+				out.println();
 			}
 			current = current.plusDays(1);
 		}
@@ -84,11 +87,14 @@ public class Comparison {
 	}
 
 	public static void main(String[] args) throws IOException, ParseException {
-		Comparison comp = new Comparison(LocalDate.parse("2012-06-01"));
+		int year = 2026;
+		Comparison comp = new Comparison("data" + year, LocalDate.parse("2012-06-01"));
 		ArrayList<TimeSeries> all = new ArrayList<>();
 		all.addAll(comp.addVolatilities(comp.snb));
 		all.addAll(comp.addVolatilities(comp.snbWithBitcoin));
-		comp.print(all, comp.snb, comp.snbWithBitcoin);
+		try (PrintStream out = new PrintStream(new File("result", "output" + year + ".txt"))){
+			comp.print(out, all, comp.snb, comp.snbWithBitcoin);
+		}
 	}
 
 }

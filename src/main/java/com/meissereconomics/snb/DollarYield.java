@@ -4,17 +4,16 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.StringTokenizer;
 
 public class DollarYield extends TimeSeries {
 
-	public DollarYield(DollarExchangeRate usd) throws FileNotFoundException, IOException {
+	public DollarYield(String dataFolder, DollarExchangeRate usd) throws FileNotFoundException, IOException {
 		super("Dollar Bonds");
 		// Source: https://fred.stlouisfed.org/series/DGS5
-		List<String> lines = Files.readAllLines(FileSystems.getDefault().getPath("data", "DGS5.csv"));
+		List<String> lines = Files.readAllLines(FileSystems.getDefault().getPath(dataFolder, "DGS5.csv"));
 		LocalDate prevTime = null;
 		double prevValue = 0.0;
 		for (int i = 1; i < lines.size(); i++) {

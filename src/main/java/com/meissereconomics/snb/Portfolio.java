@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Portfolio {
 	
 	public static final LocalDate MIN_DATE = LocalDate.parse("2014-01-01");
-	public static final LocalDate MAX_DATE = LocalDate.parse("2025-12-31");
+	public static final LocalDate MAX_DATE = LocalDate.parse("2026-12-31");
 	
 	private ArrayList<Component> components;
 	private double totalWeight;
